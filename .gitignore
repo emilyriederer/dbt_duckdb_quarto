@@ -9,3 +9,5 @@ venv/
 env/
 **/*.duckdb
 **/*.duckdb.wal
+quarto/overview_files
+overview_files/

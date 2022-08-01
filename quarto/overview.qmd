@@ -1,0 +1,56 @@
+---
+format: gfm
+jupyter: python3
+output-file: ../models/overview.md
+---
+
+```
+{% docs __overview__ %}
+```
+
+```{python}
+#| echo: false
+
+# define database connection
+# TODO: could source connection info directly from `profiles.yml`
+import duckdb
+con = duckdb.connect(database='../jaffle_shop.duckdb', read_only=False)
+
+# define query
+# TODO: could read in query file as rendered by a dbt `analysis`
+query = """
+  select 
+    datepart('month', order_date) as month,
+    min(order_date) as start_date,
+    max(order_date) as end_date,
+    count(1) as orders,
+    sum(amount) as amount
+  from orders 
+  where
+    status = 'completed' and
+    order_date >= '2018-01-01'
+  group by 1
+"""
+
+# retrieve results
+con.execute(query)
+res = con.fetchdf()
+```
+
+## Data Documentation for Jaffle Shop
+
+`jaffle_shop` is a fictional ecommerce store.
+
+The following summarizes recent order trends:
+
+```{python}
+#| echo: false
+print(res.to_string(index = False))
+```
+
+```{python}
+#| echo: false
+res.plot.bar(x = "month", y = "amount")
+```
+
+{% enddocs %}

@@ -10,6 +10,7 @@ seed-paths: ["seeds"]
 test-paths: ["tests"]
 analysis-paths: ["analysis"]
 macro-paths: ["macros"]
+asset-paths: ["overview_files"]
 
 target-path: "target"
 clean-targets:

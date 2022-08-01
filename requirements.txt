@@ -12,3 +12,5 @@ git+https://github.com/dbt-labs/dbt-core.git@experiment/local-profiles-1.1.1#sub
 
 sqlfluff~=1.2.1
 quarto>=0.1.0
+pandas
+matplotlib
