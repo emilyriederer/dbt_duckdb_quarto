@@ -1,19 +1,23 @@
 ---
 format: gfm
 jupyter: python3
+execute:
+  echo: false
+  message: false
 output-file: ../models/overview.md
 ---
 
-```
-{% docs __overview__ %}
+```{python}
+#| output: asis
+print("{% docs __overview__ %}")
 ```
 
 ```{python}
-#| echo: false
-
 # define database connection
 # TODO: could source connection info directly from `profiles.yml`
 import duckdb
+import pandas
+
 con = duckdb.connect(database='../jaffle_shop.duckdb', read_only=False)
 
 # define query
@@ -24,8 +28,15 @@ query = """
     min(order_date) as start_date,
     max(order_date) as end_date,
     count(1) as orders,
-    sum(amount) as amount
-  from orders 
+    sum(amount) as amount,
+    avg(amount) as avg_order_amount,
+    avg(case when order_date = first_order then 1 else 0 end) as pct_order_new_cust 
+  from
+    orders 
+      left join 
+    customers
+      on
+      orders.customer_id = customers.customer_id
   where
     status = 'completed' and
     order_date >= '2018-01-01'
@@ -41,16 +52,40 @@ res = con.fetchdf()
 
 `jaffle_shop` is a fictional ecommerce store.
 
+```{python txt_lastdttm}
+from IPython.display import display, Markdown
+
+display(Markdown("""
+The orders table is updated to contain date through {max_date}.
+""".format(max_date = res.end_date.max())))
+```
+
 The following summarizes recent order trends:
 
-```{python}
-#| echo: false
+```{python tbl_kpis}
 print(res.to_string(index = False))
 ```
 
-```{python}
-#| echo: false
-res.plot.bar(x = "month", y = "amount")
+Key KPIs are plotted below:
+
+```{python plot_avgamt}
+_ = res.plot.bar(
+  x = "month", 
+  y = "avg_order_amount", 
+  ylim = (0, 25),
+  title = "Average Order Amount ($)",
+  legend = False
+  )
+```
+
+```{python plot_newcust}
+_ = res.plot.line(
+  x = "month", 
+  y = "pct_order_new_cust", 
+  ylim = (0,1),
+  title = "% Orders from New Customers",
+  legend = False
+  )
 ```
 
 {% enddocs %}
