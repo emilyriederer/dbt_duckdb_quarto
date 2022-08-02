@@ -11,3 +11,4 @@ env/
 **/*.duckdb.wal
 quarto/overview_files
 overview_files/
+models/overview.md
