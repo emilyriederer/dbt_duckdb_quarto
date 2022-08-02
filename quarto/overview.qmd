@@ -7,9 +7,8 @@ execute:
 output-file: ../models/overview.md
 ---
 
-```{python}
-#| output: asis
-print("{% docs __overview__ %}")
+```
+{% docs __overview__ %}
 ```
 
 ```{python}
@@ -30,7 +29,11 @@ query = """
     count(1) as orders,
     sum(amount) as amount,
     avg(amount) as avg_order_amount,
-    avg(case when order_date = first_order then 1 else 0 end) as pct_order_new_cust 
+    avg(
+      case when order_date = first_order 
+      then 1 
+      else 0 
+      end) as pct_order_new_cust 
   from
     orders 
       left join 
@@ -55,9 +58,9 @@ res = con.fetchdf()
 ```{python txt_lastdttm}
 from IPython.display import display, Markdown
 
-display(Markdown("""
-The orders table is updated to contain date through {max_date}.
-""".format(max_date = res.end_date.max())))
+display(Markdown(f"""
+The orders table is updated to contain date through **{res.end_date.max()}**.
+"""))
 ```
 
 The following summarizes recent order trends:

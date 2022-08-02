@@ -1,11 +1,12 @@
 
-{% docs **overview** %}
+    {% docs __overview__ %}
 
 ## Data Documentation for Jaffle Shop
 
 `jaffle_shop` is a fictional ecommerce store.
 
-The orders table is updated to contain date through 2018-03-20 00:00:00.
+The orders table is updated to contain date through **2018-03-20
+00:00:00**.
 
 The following summarizes recent order trends:
 
@@ -16,8 +17,8 @@ The following summarizes recent order trends:
 
 Key KPIs are plotted below:
 
-![](overview_files/figure-gfm/cell-6-output-1.png)
+![](overview_files/figure-gfm/cell-5-output-1.png)
 
-![](overview_files/figure-gfm/cell-7-output-1.png)
+![](overview_files/figure-gfm/cell-6-output-1.png)
 
 {% enddocs %}
