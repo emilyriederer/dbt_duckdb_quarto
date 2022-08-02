@@ -44,8 +44,16 @@ quarto render quarto/overview.qmd
 cp -r quarto/overview_files .
 dbt docs generate
 dbt docs serve
-rm overview_files
 ```
+
+## Known Limitations
+
+The biggest downside of this approach is that rendering engines sometimes require caution, and the compounding effects of rendering `.qmd` or `.ipynb` to a Markown that is *actually* a Jinja2 template to be further modified in the `dbt docs generate` can be janky. 
+
+Some things that do not work out-of-the-box:
+
+- Care must be taken for anything that can be interpreted as code by Quarto. For example, Pandoc (underlying Quarto) wants to convert `{% __overview__ %}` to `{% **overview** %}` to be consistent with its "flavor" of markdown. However, the literal identified with the underscores is required by `dbt docs generate`. Fortunately, (as shown in `quarto/overview.qmd`), this can be addressed by fencing such statements in backticks
+- Anything in Quarto that generates HTML/JavaScript versus vanilla markdown. For example, the output could be made much more attractive with [Jupyter Widgets](https://quarto.org/docs/interactive/widgets/jupyter.html) which autogenerate JavaScript wrapped in `<script>` tags. The dbt documentation website framework does not know how to handle this content
 
 ---
 
