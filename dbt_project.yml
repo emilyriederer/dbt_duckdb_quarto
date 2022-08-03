@@ -5,12 +5,12 @@ version: '0.1'
 
 profile: 'jaffle_shop'
 
-model-paths: ["models"]
+model-paths: ["models", "quarto"]
 seed-paths: ["seeds"]
 test-paths: ["tests"]
 analysis-paths: ["analysis"]
 macro-paths: ["macros"]
-asset-paths: ["overview_files"]
+asset-paths: ["overview_files", "orders_files"]
 
 target-path: "target"
 clean-targets:

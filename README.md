@@ -40,8 +40,9 @@ python3 -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
 source venv/bin/activate
 dbt build
-quarto render quarto/overview.qmd
+quarto render quarto/
 cp -r quarto/overview_files .
+cp -r quarto/orders_files .
 dbt docs generate
 dbt docs serve
 ```

@@ -1,0 +1,57 @@
+---
+format: gfm
+jupyter: python3
+execute:
+  echo: false
+  message: false
+---
+
+```
+{% docs orders %}
+```
+
+This table has basic information about orders, as well as some derived facts based on payments
+
+```{python}
+# define database connection
+# TODO: could source connection info directly from `profiles.yml`
+import duckdb
+import pandas
+
+con = duckdb.connect(database='../jaffle_shop.duckdb', read_only=False)
+
+# define query
+# TODO: could read in query file as rendered by a dbt `analysis`
+query = """
+  select 
+    order_date,
+    count(1) as n
+  from orders
+  group by 1
+"""
+
+# retrieve results
+con.execute(query)
+res = con.fetchdf()
+```
+
+```{python txt_lastdttm}
+from IPython.display import display, Markdown
+
+display(Markdown(f"""
+The orders table is updated to contain date through **{res.order_date.max()}**.
+"""))
+```
+
+The following plot shows the number of observations by day:
+
+```{python plt_freq}
+_ = res.plot.line(
+  x = 'order_date', 
+  y = 'n',
+  title = 'Observations by Day',
+  legend = False
+  )
+```
+
+{% enddocs %}

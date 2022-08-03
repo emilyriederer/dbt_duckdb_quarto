@@ -9,6 +9,7 @@ venv/
 env/
 **/*.duckdb
 **/*.duckdb.wal
-quarto/overview_files
+quarto/*/
 overview_files/
+order_files/
 models/overview.md

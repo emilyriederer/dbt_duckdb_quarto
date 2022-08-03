@@ -1,0 +1,8 @@
+project:
+  output-dir: ../models
+  
+format: gfm
+jupyter: python3
+execute:
+  echo: false
+  message: false
