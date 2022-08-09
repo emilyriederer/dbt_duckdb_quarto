@@ -41,8 +41,8 @@ python3 -m pip install -r requirements.txt
 source venv/bin/activate
 dbt build
 quarto render quarto/
-cp -r quarto/overview_files .
-cp -r quarto/orders_files .
+cp -r models/overview_files .
+cp -r models/orders_files .
 dbt docs generate
 dbt docs serve
 ```
